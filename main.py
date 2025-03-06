@@ -1,7 +1,7 @@
 import os
 
 
-def load_data(data_dir, set_name='train'):
+def read_data(data_dir, set_name='train'):
     file_path = os.path.join(data_dir, set_name + ".txt")
     with open(file_path, "r") as f:
         data = f.read()
@@ -9,7 +9,7 @@ def load_data(data_dir, set_name='train'):
 
 
 def main(input_dir):
-    data = load_data(input_dir)
+    data = read_data(input_dir)
     print(type(data))
     # print(data)
 
