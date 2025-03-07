@@ -1,7 +1,7 @@
 import os
+from model import RNNModel
 
 
-# after hitting K, read
 def read_data(data_dir, set_name='train'):
 
     # read txt file
@@ -14,9 +14,15 @@ def read_data(data_dir, set_name='train'):
 
 def main(input_dir):
     data = read_data(input_dir)
-    # print(type(data))
-    print(data)
 
+    # # define model
+    # input_size = 1
+    # hidden_size = 20
+    # output_size = 1
+    # model = RNNModel(input_size, hidden_size, output_size)
+    #
+    # # train model
+    # model.train(data)
 
 if __name__ == "__main__":
     base_dir = os.path.dirname(os.path.abspath(__file__))
