@@ -122,7 +122,9 @@ def parse_abc_data(lines):
         else:
             if "melody" not in songs_dict[current_song_id]:
                 songs_dict[current_song_id]["melody"] = []
-            songs_dict[current_song_id]["melody"].append(line)
+            # Only append the line if it's not already in the melody list
+            if line not in songs_dict[current_song_id]["melody"]:
+                songs_dict[current_song_id]["melody"].append(line)
     
     return songs_dict
 
