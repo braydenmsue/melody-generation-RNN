@@ -3,7 +3,7 @@ import json
 import re
 from collections import defaultdict
 
-# Define paths for the dataset and output files
+# Define paths
 RAW_DATA_PATH = "data/raw/abc_notations.txt"  # Path to the raw ABC notation file
 PROCESSED_DATA_PATH = "data/processed/standardized_abc.txt"  # Path to save the standardized data
 LOOKUP_TABLE_PATH = "data/lookup_tables/songs_dict.json"  # Path to save the parsed songs dictionary
@@ -12,15 +12,14 @@ LOOKUP_TABLE_PATH = "data/lookup_tables/songs_dict.json"  # Path to save the par
 os.makedirs(os.path.dirname(PROCESSED_DATA_PATH), exist_ok=True)
 os.makedirs(os.path.dirname(LOOKUP_TABLE_PATH), exist_ok=True)
 
-# Tokens to mark the start and end of annotations
+# Tokens for annotations and bars
 START_ANN_TOKEN = "<START_ANN>"
 END_ANN_TOKEN = "<END_ANN>"
+BAR_SEPARATOR = "|"
 
 def load_raw_data(file_path):
     """
     Loads the raw ABC notation data from the specified file.
-    I added a check to make sure the file exists—nothing worse than running a script
-    and realizing the data isn't there!
     """
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Oops! The file {file_path} doesn't exist. Double-check the path.")
@@ -33,19 +32,28 @@ def load_raw_data(file_path):
 def standardize_formatting(lines):
     """
     Cleans up the raw ABC notation lines and adds tokens to annotations.
-    This step is crucial because the raw data can be messy—extra spaces, inconsistent
-    line breaks, and annotations scattered everywhere. I'm adding special tokens to
-    make annotations easier to parse later.
+    Also removes redundant lines and adds bar separators.
     """
     standardized_lines = []
     for line in lines:
-        line = line.strip()  # Get rid of any extra spaces at the start or end
-        if not line:  # Skip empty lines—they just take up space
+        line = line.strip()
+        if not line:
             continue
         
-        # If the line is an annotation (starts with '%'), wrap it in tokens
+        # Handle annotations (lines starting with '%')
         if line.startswith("%"):
             line = f"{START_ANN_TOKEN} {line} {END_ANN_TOKEN}"
+        
+        # Handle metadata lines (e.g., X:, T:, M:, etc.)
+        if any(line.startswith(prefix) for prefix in ["X:", "T:", "M:", "L:", "K:", "B:", "N:", "Z:"]):
+            standardized_lines.append(line)
+            continue
+        
+        # Add bar separators and clean up melody lines
+        if "|" in line:
+            bars = line.split("|")
+            cleaned_bars = [re.sub(r"[{}()<>^=_]", "", bar).strip() for bar in bars]  # Remove special symbols
+            line = BAR_SEPARATOR.join(cleaned_bars)
         
         standardized_lines.append(line)
     
@@ -54,45 +62,73 @@ def standardize_formatting(lines):
 def parse_abc_data(lines):
     """
     Parses the standardized ABC notation into a structured dictionary.
-    Each song gets its own entry with fields like 'id', 'title', 'time_signature',
-    'note_length', and 'annotations'. I'm using a defaultdict to handle missing
-    fields gracefully—no crashes if something's not there!
+    Each song is represented as a dictionary with fields:
+    - 'id', 'title', 'time_signature', 'note_length', 'key', 'book', 'notes', 'transcription', 'annotations', 'melody'.
     """
     songs_dict = defaultdict(dict)
     current_song_id = None
     
     for line in lines:
-        # Extract the song ID (lines starting with 'X:')
+        line = line.strip()
+        if not line:
+            continue
+        
+        # Extract song ID (lines starting with 'X:')
         if line.startswith("X:"):
             current_song_id = line.split(":")[1].strip()
             songs_dict[current_song_id]["id"] = current_song_id
         
-        # Extract the title (lines starting with 'T:')
+        # Extract title (lines starting with 'T:')
         elif line.startswith("T:"):
             songs_dict[current_song_id]["title"] = line.split(":")[1].strip()
         
-        # Extract the time signature (lines starting with 'M:')
+        # Extract time signature (lines starting with 'M:')
         elif line.startswith("M:"):
             songs_dict[current_song_id]["time_signature"] = line.split(":")[1].strip()
         
-        # Extract the note length (lines starting with 'L:')
+        # Extract note length (lines starting with 'L:')
         elif line.startswith("L:"):
             songs_dict[current_song_id]["note_length"] = line.split(":")[1].strip()
         
+        # Extract key (lines starting with 'K:')
+        elif line.startswith("K:"):
+            songs_dict[current_song_id]["key"] = line.split(":")[1].strip()
+        
+        # Extract book (lines starting with 'B:')
+        elif line.startswith("B:"):
+            songs_dict[current_song_id]["book"] = line.split(":")[1].strip()
+        
+        # Extract notes (lines starting with 'N:')
+        elif line.startswith("N:"):
+            note_content = line.split(":")[1].strip()
+            if note_content:  # Only overwrite if the line is not empty
+                songs_dict[current_song_id]["notes"] = note_content  # Overwrite instead of appending
+        
+        # Extract transcription info (lines starting with 'Z:')
+        elif line.startswith("Z:"):
+            transcription_content = line.split(":")[1].strip()
+            if transcription_content:  # Only overwrite if the line is not empty
+                songs_dict[current_song_id]["transcription"] = transcription_content  # Overwrite instead of appending
+        
         # Extract annotations (lines with <START_ANN> and <END_ANN> tokens)
         elif START_ANN_TOKEN in line:
-            # Remove the tokens and clean up the annotation
             annotation = re.sub(f"{START_ANN_TOKEN}|{END_ANN_TOKEN}", "", line).strip()
-            if "annotations" not in songs_dict[current_song_id]:
-                songs_dict[current_song_id]["annotations"] = []
-            songs_dict[current_song_id]["annotations"].append(annotation)
+            if annotation:  # Only append if the line is not empty
+                if "annotations" not in songs_dict[current_song_id]:
+                    songs_dict[current_song_id]["annotations"] = []
+                songs_dict[current_song_id]["annotations"].append(annotation)
+        
+        # Extract melody (all other lines)
+        else:
+            if "melody" not in songs_dict[current_song_id]:
+                songs_dict[current_song_id]["melody"] = []
+            songs_dict[current_song_id]["melody"].append(line)
     
     return songs_dict
 
 def save_processed_data(lines, file_path):
     """
     Saves the standardized data to a file.
-    This is just a simple function to write the cleaned-up lines to a new file.
     """
     with open(file_path, "w") as file:
         file.write("\n".join(lines))
@@ -100,8 +136,6 @@ def save_processed_data(lines, file_path):
 def save_lookup_table(songs_dict, file_path):
     """
     Saves the parsed songs dictionary to a JSON file.
-    I'm using json.dump with indentation to make the file human-readable—because
-    nobody likes squinting at a wall of text!
     """
     with open(file_path, "w") as file:
         json.dump(songs_dict, file, indent=4)
@@ -109,28 +143,20 @@ def save_lookup_table(songs_dict, file_path):
 def preprocess_dataset():
     """
     The main function that ties everything together.
-    This is where the magic happens! It loads the raw data, standardizes it, parses
-    it into a dictionary, and saves the results. I added some print statements to
-    track progress—it's always nice to see what's happening as the script runs.
     """
     try:
-        # Step 1: Load the raw data
         print("Loading raw data...")
         raw_lines = load_raw_data(RAW_DATA_PATH)
         
-        # Step 2: Standardize the formatting
         print("Standardizing formatting...")
         standardized_lines = standardize_formatting(raw_lines)
         
-        # Step 3: Save the standardized data
         print("Saving standardized data...")
         save_processed_data(standardized_lines, PROCESSED_DATA_PATH)
         
-        # Step 4: Parse the data into a dictionary
         print("Parsing data into dictionary...")
         songs_dict = parse_abc_data(standardized_lines)
-        
-        # Step 5: Save the lookup table
+
         print("Saving lookup table...")
         save_lookup_table(songs_dict, LOOKUP_TABLE_PATH)
         
