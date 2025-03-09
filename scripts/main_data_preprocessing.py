@@ -1,5 +1,5 @@
 import os
-from model import RNNModel
+from models.rnn import RNNModel
 
 
 def read_data(data_dir, set_name='train'):
