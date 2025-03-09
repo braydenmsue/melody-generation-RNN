@@ -4,13 +4,20 @@ from torch.utils.data import Dataset
 
 class ABCDataset(Dataset):
     def __init__(self, json_file, transform=None, target_transform=None):
-        # Load data from JSON file
         with open(json_file, 'r') as f:
             self.data = json.load(f)
 
+        # TODO: extract melody
+
+        # TODO: break melody into ABC components/bars
+
+        # TODO: build a tensor
+
         self.keys = list(self.data.keys())
-        self.transform = transform
-        self.target_transform = target_transform
+
+        # TODO: do we need this?
+        # self.transform = transform
+        # self.target_transform = target_transform
 
     def __len__(self):
         return len(self.keys)
@@ -25,10 +32,10 @@ class ABCDataset(Dataset):
         # You can choose what to use as your label
         label = item_dict.get("key", None)  # Using musical key as label
 
-        if self.transform:
-            item_dict = self.transform(item_dict)
-        if self.target_transform and label is not None:
-            label = self.target_transform(label)
+        # if self.transform:
+        #     item_dict = self.transform(item_dict)
+        # if self.target_transform and label is not None:
+        #     label = self.target_transform(label)
 
         return item_dict, label
 
