@@ -26,6 +26,7 @@ def char2ind(c):
         return VOCAB.find(c)
 
 
+# TODO: embeddings instead of one-hot encoding
 def line2tensor(line):
     # print(f"line: {line}")
     tensor = torch.zeros(len(line), 1, VOCAB_SIZE)
