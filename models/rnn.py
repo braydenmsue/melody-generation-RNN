@@ -4,13 +4,13 @@ import torch.nn as nn
 
 class HP:
     hidden_dim = 128
-    embed_dim = 256
+    embed_dim = 32
     n_layers = 1
     dropout = 0.2
 
     batch_size = 32
     num_epochs = 10
-    lr = 0.25
+    lr = 0.001
 
     # System
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

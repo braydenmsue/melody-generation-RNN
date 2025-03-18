@@ -4,11 +4,11 @@ from torch.utils.data import Dataset
 
 NOTES = "ABCDEFGabcdefg"
 MODIFIERS = "Zz|[]/:!^_~=,.0123456789(){}<>#'\"%-+ "
-HEADERS = "TLKM"
+LABELS = "TLKM"     # Time signature, note length, key, melody
 DELIMITER = "~"
 UNKNOWN = "_"
 
-VOCAB = NOTES + MODIFIERS + HEADERS + DELIMITER + UNKNOWN
+VOCAB = NOTES + MODIFIERS + LABELS + DELIMITER + UNKNOWN
 VOCAB_SIZE = len(VOCAB)
 
 EXCLUDED_ENTRIES = {"1850"}
@@ -27,6 +27,8 @@ def char2ind(c):
 
 
 # TODO: embeddings instead of one-hot encoding
+# TODO: add padding
+# TODO: bar-level chunking
 def line2tensor(line):
     # print(f"line: {line}")
     tensor = torch.zeros(len(line), 1, VOCAB_SIZE)
