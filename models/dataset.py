@@ -1,5 +1,35 @@
 import json
+import torch
 from torch.utils.data import Dataset
+
+NOTES = "ABCDEFGabcdefg"
+MODIFIERS = "Zz|[]/:!^_~=,.0123456789(){}<>#'\"%-+ "
+UNKNOWN = "_"
+
+VOCAB = NOTES + MODIFIERS + UNKNOWN
+VOCAB_SIZE = len(VOCAB)
+
+
+def char2ind(c):
+    if c not in VOCAB:
+        return VOCAB.find("_")
+    else:
+        return VOCAB.find(c)
+
+
+def line2tensor(line):
+    tensor = torch.zeros(len(line), 1, VOCAB_SIZE)
+    for idx, letter in enumerate(line):
+        tensor[idx][0][char2ind(letter)] = 1
+    return tensor
+
+
+def entry_to_tensor(entry):
+    line = ""
+    for key, val in entry.items():
+        string = f"<{key}>{val}</{key}>"
+        line += string + " "
+    return line2tensor(line)
 
 
 class ABCDataset(Dataset):
@@ -7,40 +37,26 @@ class ABCDataset(Dataset):
         with open(json_file, 'r') as f:
             self.data = json.load(f)
 
-        # TODO: extract melody
+        self.sequences = []
+        self.entry_indices = list(self.data.keys())
 
-        # TODO: break melody into ABC components/bars
-
-        # TODO: build a tensor
-
-        self.keys = list(self.data.keys())
-
-        # TODO: do we need this?
-        # self.transform = transform
-        # self.target_transform = target_transform
+        for idx in self.entry_indices:
+            entry = self.data[idx]
+            entry_t = entry_to_tensor(entry)
+            self.sequences.append(entry_t)
 
     def __len__(self):
-        return len(self.keys)
+        return len(self.sequences)
 
     def __getitem__(self, idx):
-        # Get the key for this index
-        key = self.keys[idx]
+        # Get the pre-processed tensor sequence
+        sequence_tensor = self.sequences[idx]
 
-        # Get the dictionary for this item
-        item_dict = self.data[key]
+        # For character-by-character prediction, we want:
+        # - Input: all characters except the last one
+        # - Target: all characters except the first one (shifted by 1)
+        input_tensor = sequence_tensor[:-1]
+        target_tensor = sequence_tensor[1:]
 
-        # You can choose what to use as your label
-        label = item_dict.get("key", None)  # Using musical key as label
-
-        # if self.transform:
-        #     item_dict = self.transform(item_dict)
-        # if self.target_transform and label is not None:
-        #     label = self.target_transform(label)
-
-        return item_dict, label
-
-    def get_by_id(self, item_id):
-        if item_id in self.data:
-            return self.data[item_id]
-        return None
+        return input_tensor, target_tensor
 
