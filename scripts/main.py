@@ -1,5 +1,5 @@
 import os
-from models.rnn import RNNModel
+from models import rnn
 import torch
 from models.dataset import ABCDataset
 
@@ -10,8 +10,8 @@ def main(input_dir):
     # print(json_path)
 
     dataset = ABCDataset(json_path)
-    print(dataset.__len__())
-    print(dataset.__getitem__(0))
+    # print(dataset.__len__())
+    # print(dataset.__getitem__(0))
 
     training_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True)
     return

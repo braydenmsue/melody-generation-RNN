@@ -4,10 +4,19 @@ from torch.utils.data import Dataset
 
 NOTES = "ABCDEFGabcdefg"
 MODIFIERS = "Zz|[]/:!^_~=,.0123456789(){}<>#'\"%-+ "
+HEADERS = "TLKM"
+DELIMITER = "~"
 UNKNOWN = "_"
 
-VOCAB = NOTES + MODIFIERS + UNKNOWN
+VOCAB = NOTES + MODIFIERS + HEADERS + DELIMITER + UNKNOWN
 VOCAB_SIZE = len(VOCAB)
+
+EXCLUDED_ENTRIES = {"1850"}
+EXCLUDED_KEYS = {'id', 'title', 'book', 'transcription', 'notes', 'annotations'}
+KEY_DICT = {'time_signature': 'T',
+            'note_length': 'L',
+            'key': 'K',
+            'melody': 'M'}
 
 
 def char2ind(c):
@@ -18,6 +27,7 @@ def char2ind(c):
 
 
 def line2tensor(line):
+    # print(f"line: {line}")
     tensor = torch.zeros(len(line), 1, VOCAB_SIZE)
     for idx, letter in enumerate(line):
         tensor[idx][0][char2ind(letter)] = 1
@@ -27,8 +37,16 @@ def line2tensor(line):
 def entry_to_tensor(entry):
     line = ""
     for key, val in entry.items():
-        string = f"<{key}>{val}</{key}>"
+        if key in EXCLUDED_KEYS:
+            continue
+        if key == 'melody':
+            val = " ".join(val)
+        string = f"{KEY_DICT[key]}~{val}"
         line += string + " "
+
+    # print('\n\n\n')
+    # print(f'Entry: {line}')
+
     return line2tensor(line)
 
 
@@ -41,6 +59,8 @@ class ABCDataset(Dataset):
         self.entry_indices = list(self.data.keys())
 
         for idx in self.entry_indices:
+            if str(idx) in EXCLUDED_ENTRIES:
+                continue
             entry = self.data[idx]
             entry_t = entry_to_tensor(entry)
             self.sequences.append(entry_t)
