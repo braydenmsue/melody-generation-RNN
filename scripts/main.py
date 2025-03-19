@@ -1,12 +1,29 @@
 import os
-# from models import rnn
+from models.rnn import HP
 import torch
 import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from models.dataset import ABCDataset
+from models.dataset import ABCDataset, char2ind
 from models.train import train_model
+from torch.nn.utils.rnn import pad_sequence
+
+
+def collate_fn(batch, pad_index):
+    inputs, targets = zip(*batch)  # Only two values (not three)
+
+    # Pad sequences so they have the same length
+    inputs_padded = pad_sequence(inputs, batch_first=True, padding_value=pad_index)
+    targets_padded = pad_sequence(targets, batch_first=True, padding_value=pad_index)
+
+    inputs_padded = inputs_padded.squeeze(2)
+    targets_padded = targets_padded.squeeze(2)
+
+    # print(f"inputs_padded shape: {inputs_padded.shape}")  # Debugging
+    # print(f"targets_padded shape: {targets_padded.shape}")  # Debugging
+
+    return inputs_padded, targets_padded
 
 
 def main(input_dir):
@@ -17,10 +34,17 @@ def main(input_dir):
     dataset = ABCDataset(json_path)
     # print(dataset.__len__())
     # print(dataset.__getitem__(0))
+    # PAD_IDX = char2ind('$')     # padding index in vocab
+    # PAD_IDX = 0
+    PAD_IDX = dataset.get_pad_idx()
+    training_loader = torch.utils.data.DataLoader(dataset,
+                                                  batch_size=HP.batch_size,
+                                                  shuffle=True,
+                                                  collate_fn=lambda b: collate_fn(b, PAD_IDX))
 
-    training_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True)
-    model = train_model(input_dir, num_epochs=10, batch_size=4, learning_rate=0.0005)
+    model = train_model(training_loader, num_epochs=HP.num_epochs, batch_size=HP.batch_size, learning_rate=HP.lr)
     return model
+
 
 if __name__ == "__main__":
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -5,10 +5,12 @@ from torch.utils.data import Dataset
 NOTES = "ABCDEFGabcdefg"
 MODIFIERS = "Zz|[]/:!^_~=,.0123456789(){}<>#'\"%-+ "
 LABELS = "TLKM"     # Time signature, note length, key, melody
-DELIMITER = "~"
+DELIMITER = ";"
 UNKNOWN = "_"
+PAD = "$"
 
-VOCAB = NOTES + MODIFIERS + LABELS + DELIMITER + UNKNOWN
+
+VOCAB = PAD + NOTES + MODIFIERS + LABELS + DELIMITER + UNKNOWN
 VOCAB_SIZE = len(VOCAB)
 
 EXCLUDED_ENTRIES = {"1850"}
@@ -44,11 +46,11 @@ def entry_to_tensor(entry):
             continue
         if key == 'melody':
             val = " ".join(val)
-        string = f"{KEY_DICT[key]}~{val}"
+        string = f"{KEY_DICT[key]};{val}"
         line += string + " "
 
-    # print('\n\n\n')
-    # print(f'Entry: {line}')
+    print('\n\n\n')
+    print(f'Entry: {line}')
 
     return line2tensor(line)
 
@@ -58,8 +60,13 @@ class ABCDataset(Dataset):
         with open(json_file, 'r') as f:
             self.data = json.load(f)
 
+        self.file_name = json_file
         self.sequences = []
         self.entry_indices = list(self.data.keys())
+        self.vocab_size = VOCAB_SIZE
+        self.vocab = VOCAB
+        self.pad_token = '$'
+        self.pad_idx = self.vocab.find(self.pad_token)
 
         for idx in self.entry_indices:
             if str(idx) in EXCLUDED_ENTRIES:
@@ -82,4 +89,8 @@ class ABCDataset(Dataset):
         target_tensor = sequence_tensor[1:]
 
         return input_tensor, target_tensor
+
+    def get_pad_idx(self):
+        return self.pad_idx
+
 

@@ -47,7 +47,7 @@ class RNNModel(nn.Module):
     def forward(self, x, hidden=None):
         # If hidden is None, initialize it to zeros
         if hidden is None:
-            hidden = torch.zeros(1, x.size(0), self.hidden_size).to(x.device)
+            hidden = torch.zeros(1, x.size(0), HP.hidden_dim).to(x.device)
         
         out, hidden = self.rnn(x, hidden)
         out = self.fc(out)
