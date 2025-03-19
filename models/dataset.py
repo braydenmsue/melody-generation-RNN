@@ -79,12 +79,8 @@ class ABCDataset(Dataset):
         return len(self.sequences)
 
     def __getitem__(self, idx):
-        # Get the pre-processed tensor sequence
         sequence_tensor = self.sequences[idx]
 
-        # For character-by-character prediction, we want:
-        # - Input: all characters except the last one
-        # - Target: all characters except the first one (shifted by 1)
         input_tensor = sequence_tensor[:-1]
         target_tensor = sequence_tensor[1:]
 

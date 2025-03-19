@@ -43,14 +43,18 @@ def train_model(dataloader, num_epochs=5, batch_size=4, learning_rate=0.0005):
             batch_size, seq_length, _ = input_tensor.shape
             hidden = torch.zeros(1, batch_size, hidden_size).to(device)
 
-            # output, hidden = model(input_tensor)
-            # loss = criterion(output.view(-1, output_size), target_tensor.view(-1))
+            output, hidden = model(input_tensor)
+            output = output.reshape(-1, output_size)
+            target_tensor = target_tensor.reshape(-1, output_size)
 
-            loss = 0
-            for i in range(seq_length):
-                output, hidden = model(input_tensor[:, i, :].unsqueeze(1), hidden)
-                output = output.squeeze(1)  # Remove extra dimension
-                loss += criterion(output, target_tensor[:, i, :])
+            loss = criterion(output, target_tensor)
+
+            #
+            # loss = 0
+            # for i in range(seq_length):
+            #     output, hidden = model(input_tensor[:, i, :].unsqueeze(1), hidden)
+            #     output = output.squeeze(1)  # Remove extra dimension
+            #     loss += criterion(output, target_tensor[:, i, :])
 
             loss.backward()
             optimizer.step()
