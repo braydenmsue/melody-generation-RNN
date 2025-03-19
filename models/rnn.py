@@ -44,11 +44,15 @@ class RNNModel(nn.Module):
         # self.gru = nn.GRU(input_size, hidden_size, batch_first=True)
         self.fc = nn.Linear(hidden_size, output_size)
 
-    def forward(self, x):
-        h0 = torch.zeros(1, x.size(0), self.hidden_size).to(x.device)
-        out, _ = self.rnn(x, h0)
+    def forward(self, x, hidden=None):
+        # If hidden is None, initialize it to zeros
+        if hidden is None:
+            hidden = torch.zeros(1, x.size(0), self.hidden_size).to(x.device)
+        
+        out, hidden = self.rnn(x, hidden)
         out = self.fc(out)
-        return out
+        return out, hidden
+
 
 
 
