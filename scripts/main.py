@@ -1,7 +1,12 @@
 import os
-from models import rnn
+# from models import rnn
 import torch
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from models.dataset import ABCDataset
+from models.train import train_model
 
 
 def main(input_dir):
@@ -14,7 +19,8 @@ def main(input_dir):
     # print(dataset.__getitem__(0))
 
     training_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True)
-    return
+    model = train_model(input_dir, num_epochs=10, batch_size=4, learning_rate=0.0005)
+    return model
 
 if __name__ == "__main__":
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
