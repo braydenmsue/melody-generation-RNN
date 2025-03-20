@@ -9,6 +9,7 @@ import wandb
 
 
 OUTPUT_DIR = os.path.abspath(os.path.join(os.getcwd(), os.pardir, 'output'))
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 # print(OUTPUT_DIR)
 
 
@@ -76,10 +77,8 @@ def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
     #             })
     # run.finish()
 
-    # Save model
-    # torch.save(model.state_dict(), f"{OUTPUT_DIR}/rnn_model.pth")
-    # print("Training complete. Model saved.")
     torch.save(model.state_dict(), f"{OUTPUT_DIR}/rnn_model.pth")
+    # torch.save(model.state_dict(), f"{OUTPUT_DIR}/rnn_model_{HP.num_epochs}.pth")
     print("Training complete. Model saved.")
 
     return model
@@ -89,13 +88,13 @@ def eval_model(test_loader):
     dataset = test_loader.dataset
     if isinstance(dataset, Subset):
         dataset = dataset.dataset
-
     input_size = dataset.get_vocab_size()
     PAD_IDX = dataset.get_pad_idx()
 
     hidden_size = HP.hidden_dim
     output_size = input_size
     model = RNNModel(input_size, hidden_size, output_size).to(HP.device)
+
     model.load_state_dict(torch.load(f"{OUTPUT_DIR}/rnn_model.pth"))
     device = HP.device
     model.to(device)

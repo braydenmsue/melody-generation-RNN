@@ -5,12 +5,10 @@ from torch.utils.data import Dataset, random_split
 NOTES = "ABCDEFGabcdefg"
 MODIFIERS = "Zz|[]/:!^_~=,.0123456789(){}<>#'\"%-+ "
 LABELS = "TLKM"     # Time signature, note length, key, melody
-DELIMITER = ";"
 UNKNOWN = "_"
 PAD = "$"
 
-
-VOCAB = PAD + NOTES + MODIFIERS + LABELS + DELIMITER + UNKNOWN
+VOCAB = PAD + NOTES + MODIFIERS + LABELS + UNKNOWN
 VOCAB_SIZE = len(VOCAB)
 
 EXCLUDED_ENTRIES = {"1850"}
@@ -45,7 +43,7 @@ def entry_to_tensor(entry):
             continue
         if key == 'melody':
             val = " ".join(val)
-        string = f"{KEY_DICT[key]};{val}"
+        string = f"{KEY_DICT[key]}{val}"
         line += string + " "
 
     # print('\n\n\n')

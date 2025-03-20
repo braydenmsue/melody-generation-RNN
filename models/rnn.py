@@ -9,10 +9,9 @@ class HP:
     dropout = 0.2
 
     batch_size = 32
-    num_epochs = 30
+    num_epochs = 300
     lr = 0.002
 
-    # System
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
@@ -27,7 +26,6 @@ class RNNModel(nn.Module):
         self.fc = nn.Linear(hidden_size, output_size)
 
     def forward(self, x, hidden=None):
-        # If hidden is None, initialize it to zeros
         if hidden is None:
             hidden = torch.zeros(1, x.size(0), HP.hidden_dim).to(x.device)
         

@@ -31,12 +31,13 @@ def main(input_dir, train_flag=False):
     dataset = ABCDataset(json_path)
     model = None
 
-    test_ratio = 0.2  # 80/20 train/test split
+    test_ratio = 0.2  # fraction of data used for test set
     train_dataset, test_dataset = dataset.split_dataset(test_ratio)
-    # print(dataset.__len__())
-    # print(dataset.__getitem__(0))
 
+    # use predetermined pad_idx for padding in collate_fn function
     PAD_IDX = dataset.get_pad_idx()
+
+    # dataloaders using the data resulting from split
     train_loader = torch.utils.data.DataLoader(train_dataset,
                                                batch_size=HP.batch_size,
                                                shuffle=True,
@@ -46,18 +47,17 @@ def main(input_dir, train_flag=False):
                                               shuffle=True,
                                               collate_fn=lambda b: collate_fn(b, PAD_IDX))
 
+    # change to True to train model with hyperparameters from HP class
     if train_flag:
         model = train_model(train_loader, num_epochs=HP.num_epochs, batch_size=HP.batch_size, learning_rate=HP.lr)
-    eval_model(test_loader)
+    eval_model(test_loader)         # latest model
 
     return model
 
 
 if __name__ == "__main__":
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    # print(f'base dir: {base_dir}')
     data_path = os.path.join(base_dir, 'data')
-    # print(f'data dir: {data_path}')
 
-    main(data_path, True)
+    main(data_path, train_flag=False)
 
