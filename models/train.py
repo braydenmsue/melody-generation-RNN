@@ -2,13 +2,15 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from models.dataset import ABCDataset
+from torch.utils.data import Subset
 from models.rnn import RNNModel, HP
 import os
 
 OUTPUT_DIR = os.path.abspath(os.path.join(os.getcwd(), os.pardir, 'output'))
 # print(OUTPUT_DIR)
 
-def train_model(dataloader, num_epochs=5, batch_size=4, learning_rate=0.0005):
+
+def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
 
     # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     device = HP.device
@@ -21,14 +23,20 @@ def train_model(dataloader, num_epochs=5, batch_size=4, learning_rate=0.0005):
 
     # Initialize model
     # input_size = dataloader.dataset.sequences[0].shape[2]  # VOCAB_SIZE
-    input_size = dataloader.dataset.vocab_size
-    # hidden_size = 128
+    dataset = dataloader.dataset
+    if isinstance(dataset, Subset):
+        dataset = dataset.dataset
+
+    input_size = dataset.get_vocab_size()
+    PAD_IDX = dataset.get_pad_idx()
+
     hidden_size = HP.hidden_dim
     output_size = input_size  # Predicts the next character in sequence
     model = RNNModel(input_size, hidden_size, output_size).to(device)
 
     # Define loss function and optimizer
     criterion = nn.CrossEntropyLoss()
+    # criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     # Training loop
@@ -49,7 +57,6 @@ def train_model(dataloader, num_epochs=5, batch_size=4, learning_rate=0.0005):
 
             loss = criterion(output, target_tensor)
 
-            #
             # loss = 0
             # for i in range(seq_length):
             #     output, hidden = model(input_tensor[:, i, :].unsqueeze(1), hidden)
@@ -71,3 +78,40 @@ def train_model(dataloader, num_epochs=5, batch_size=4, learning_rate=0.0005):
     return model
 
 
+def eval_model(test_loader):
+    dataset = test_loader.dataset
+    if isinstance(dataset, Subset):
+        dataset = dataset.dataset
+
+    input_size = dataset.get_vocab_size()
+    PAD_IDX = dataset.get_pad_idx()
+
+    hidden_size = HP.hidden_dim
+    output_size = input_size
+    model = RNNModel(input_size, hidden_size, output_size).to(HP.device)
+    model.load_state_dict(torch.load(f"{OUTPUT_DIR}/rnn_model.pth"))
+    device = HP.device
+    model.to(device)
+    model.eval()
+
+    test_loss = 0
+    correct = 0
+    criterion = nn.CrossEntropyLoss()
+
+    with torch.no_grad():
+        for input_tensor, target_tensor in test_loader:
+            input_tensor = input_tensor.to(device)
+            target_tensor = target_tensor.to(device)
+
+            output, _ = model(input_tensor)
+
+            loss = criterion(output, target_tensor)
+            test_loss += loss.item()
+
+            pred = output.argmax(dim=1, keepdim=True)
+            correct += pred.eq(target_tensor.view_as(pred)).sum().item()
+
+    test_loss /= len(test_loader)
+    accuracy = 100.0 * correct / len(test_loader.dataset)
+
+    print(f"\nTest set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(test_loader.dataset)} ({accuracy:.2f}%)\n")

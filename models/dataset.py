@@ -1,6 +1,6 @@
 import json
 import torch
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, random_split
 
 NOTES = "ABCDEFGabcdefg"
 MODIFIERS = "Zz|[]/:!^_~=,.0123456789(){}<>#'\"%-+ "
@@ -49,8 +49,8 @@ def entry_to_tensor(entry):
         string = f"{KEY_DICT[key]};{val}"
         line += string + " "
 
-    print('\n\n\n')
-    print(f'Entry: {line}')
+    # print('\n\n\n')
+    # print(f'Entry: {line}')
 
     return line2tensor(line)
 
@@ -88,5 +88,13 @@ class ABCDataset(Dataset):
 
     def get_pad_idx(self):
         return self.pad_idx
+
+    def get_vocab_size(self):
+        return self.vocab_size
+
+    def split_dataset(self, test_ratio=0.8):
+        test_size = int(test_ratio * len(self))
+        train_size = len(self) - test_size
+        return random_split(self, [train_size, test_size])
 
 

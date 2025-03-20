@@ -6,22 +6,19 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from models.dataset import ABCDataset, char2ind
-from models.train import train_model
+from models.train import train_model, eval_model
 from torch.nn.utils.rnn import pad_sequence
 
 
 def collate_fn(batch, pad_index):
-    inputs, targets = zip(*batch)  # Only two values (not three)
+    inputs, targets = zip(*batch)
 
-    # Pad sequences so they have the same length
     inputs_padded = pad_sequence(inputs, batch_first=True, padding_value=pad_index)
     targets_padded = pad_sequence(targets, batch_first=True, padding_value=pad_index)
 
+    # TODO: remove these?
     inputs_padded = inputs_padded.squeeze(2)
     targets_padded = targets_padded.squeeze(2)
-
-    # print(f"inputs_padded shape: {inputs_padded.shape}")  # Debugging
-    # print(f"targets_padded shape: {targets_padded.shape}")  # Debugging
 
     return inputs_padded, targets_padded
 
@@ -32,17 +29,25 @@ def main(input_dir):
     # print(json_path)
 
     dataset = ABCDataset(json_path)
+    model = None
+    test_ratio = 0.2  # 80/20 train/test split
+    train_dataset, test_dataset = dataset.split_dataset(test_ratio)
     # print(dataset.__len__())
     # print(dataset.__getitem__(0))
-    # PAD_IDX = char2ind('$')     # padding index in vocab
-    # PAD_IDX = 0
-    PAD_IDX = dataset.get_pad_idx()
-    training_loader = torch.utils.data.DataLoader(dataset,
-                                                  batch_size=HP.batch_size,
-                                                  shuffle=True,
-                                                  collate_fn=lambda b: collate_fn(b, PAD_IDX))
 
-    model = train_model(training_loader, num_epochs=HP.num_epochs, batch_size=HP.batch_size, learning_rate=HP.lr)
+    PAD_IDX = dataset.get_pad_idx()
+    train_loader = torch.utils.data.DataLoader(train_dataset,
+                                               batch_size=HP.batch_size,
+                                               shuffle=True,
+                                               collate_fn=lambda b: collate_fn(b, PAD_IDX))
+    test_loader = torch.utils.data.DataLoader(test_dataset,
+                                              batch_size=HP.batch_size,
+                                              shuffle=True,
+                                              collate_fn=lambda b: collate_fn(b, PAD_IDX))
+
+    model = train_model(train_loader, num_epochs=HP.num_epochs, batch_size=HP.batch_size, learning_rate=HP.lr)
+    # eval_model(test_loader)   # doesn't work
+
     return model
 
 
