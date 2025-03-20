@@ -59,5 +59,5 @@ if __name__ == "__main__":
     data_path = os.path.join(base_dir, 'data')
     # print(f'data dir: {data_path}')
 
-    main(data_path)
+    main(data_path, True)
 

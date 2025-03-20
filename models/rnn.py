@@ -9,7 +9,7 @@ class HP:
     dropout = 0.2
 
     batch_size = 32
-    num_epochs = 150
+    num_epochs = 30
     lr = 0.002
 
     # System
