@@ -16,10 +16,15 @@ import wandb
 
 
 def sample(model, dataset):
+
+    model.eval()
+
     data_ptr = 0
     hidden_state = None
 
     rand_idx = np.random.randint(len(dataset) - 1)
+    if isinstance(dataset, Subset):
+        dataset = dataset.dataset
     data = dataset.sequences
     # input_seq = data[rand_idx:rand_idx+1]
     input_seq = data[rand_idx:rand_idx + 1]
@@ -119,9 +124,6 @@ def train_model(dataloader, output_dir, num_epochs=3, batch_size=32, learning_ra
     torch.save(model.state_dict(), f"{output_dir}/rnn_model.pth")
     # torch.save(model.state_dict(), f"{OUTPUT_DIR}/rnn_model_{HP.num_epochs}.pth")
     print("Training complete. Model saved.")
-
-    gen_output = sample(model, dataset)
-    print(f"OUTPUT SEQUENCE (TRAIN):\n{gen_output}")
     return model
 
 
@@ -169,5 +171,4 @@ def eval_model(test_loader, output_dir):
     accuracy = 100.0 * correct / total
 
     print(f"\nTest set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{total} ({accuracy:.2f}%)")
-    gen_output = sample(model, dataset)
-    print(f"OUTPUT SEQUENCE (TEST):\n{gen_output}")
+    return model

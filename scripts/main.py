@@ -6,7 +6,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from models.dataset import ABCDataset, char2ind
-from models.train import train_model, eval_model
+from models.train import train_model, eval_model, sample
 from torch.nn.utils.rnn import pad_sequence
 
 
@@ -58,8 +58,13 @@ def main(input_dir, train_flag=False):
                             batch_size=HP.batch_size,
                             learning_rate=HP.lr)
 
+        gen_output = sample(model, train_dataset)
+        print(f"\nOUTPUT SEQUENCE (TRAIN):\n{gen_output}")
+
     if os.path.isfile(f"{OUTPUT_DIR}/rnn_model.pth"):
-        eval_model(test_loader, OUTPUT_DIR)
+        model = eval_model(test_loader, OUTPUT_DIR)
+        gen_output = sample(model, test_dataset)
+        print(f"\nOUTPUT SEQUENCE (TEST):\n{gen_output}")
     else:
         print(f"'{OUTPUT_DIR}/rnn_model.pth' DOES NOT EXIST\n   Set `train_flag=True` in main.py.")
 
