@@ -16,10 +16,10 @@ def collate_fn(batch, pad_index):
     inputs_padded = pad_sequence(inputs, batch_first=True, padding_value=pad_index)
     targets_padded = pad_sequence(targets, batch_first=True, padding_value=pad_index)
 
-    # TODO: remove these?
     inputs_padded = inputs_padded.squeeze(2)
     targets_padded = targets_padded.squeeze(2)
-
+    # print(f"Inputs padded shape: {inputs_padded.shape}")
+    # print(f"Targets padded shape: {targets_padded.shape}")
     return inputs_padded, targets_padded
 
 
@@ -45,8 +45,8 @@ def main(input_dir):
                                               shuffle=True,
                                               collate_fn=lambda b: collate_fn(b, PAD_IDX))
 
-    model = train_model(train_loader, num_epochs=HP.num_epochs, batch_size=HP.batch_size, learning_rate=HP.lr)
-    # eval_model(test_loader)   # doesn't work
+    # model = train_model(train_loader, num_epochs=HP.num_epochs, batch_size=HP.batch_size, learning_rate=HP.lr)
+    eval_model(test_loader)   # doesn't work
 
     return model
 

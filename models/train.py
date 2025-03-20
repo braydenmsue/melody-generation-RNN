@@ -35,8 +35,8 @@ def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
     model = RNNModel(input_size, hidden_size, output_size).to(device)
 
     # Define loss function and optimizer
-    criterion = nn.CrossEntropyLoss()
-    # criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
+    # criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     # Training loop
@@ -47,21 +47,15 @@ def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
 
             model.zero_grad()
 
-            # Reshape for batch processing
             batch_size, seq_length, _ = input_tensor.shape
             hidden = torch.zeros(1, batch_size, hidden_size).to(device)
 
             output, hidden = model(input_tensor)
+
             output = output.reshape(-1, output_size)
-            target_tensor = target_tensor.reshape(-1, output_size)
 
-            loss = criterion(output, target_tensor)
-
-            # loss = 0
-            # for i in range(seq_length):
-            #     output, hidden = model(input_tensor[:, i, :].unsqueeze(1), hidden)
-            #     output = output.squeeze(1)  # Remove extra dimension
-            #     loss += criterion(output, target_tensor[:, i, :])
+            target_indices = torch.argmax(target_tensor, dim=2).reshape(-1)
+            loss = criterion(output, target_indices)
 
             loss.backward()
             optimizer.step()
@@ -96,16 +90,17 @@ def eval_model(test_loader):
 
     test_loss = 0
     correct = 0
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
 
     with torch.no_grad():
         for input_tensor, target_tensor in test_loader:
             input_tensor = input_tensor.to(device)
-            target_tensor = target_tensor.to(device)
+            target_tensor = target_tensor.to(device).long()
 
             output, _ = model(input_tensor)
-
-            loss = criterion(output, target_tensor)
+            print(output.shape)
+            target_indices = torch.argmax(target_tensor, dim=2).reshape(-1)
+            loss = criterion(output, target_indices)
             test_loss += loss.item()
 
             pred = output.argmax(dim=1, keepdim=True)
