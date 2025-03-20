@@ -9,8 +9,9 @@ class HP:
     dropout = 0.2
 
     batch_size = 32
-    num_epochs = 300
-    lr = 0.002
+    num_epochs = 30
+    lr = 0.005
+    output_len = 256
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

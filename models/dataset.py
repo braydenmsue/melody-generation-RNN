@@ -26,6 +26,10 @@ def char2ind(c):
         return VOCAB.find(c)
 
 
+def ind2char(i):
+    return VOCAB[i]
+
+
 # TODO: embeddings instead of one-hot encoding
 # TODO: bar-level chunking
 def line2tensor(line):
@@ -64,6 +68,9 @@ class ABCDataset(Dataset):
         self.vocab = VOCAB
         self.pad_token = '$'
         self.pad_idx = self.vocab.find(self.pad_token)
+
+        self.char2idx_dict = {ch: i for i, ch in enumerate(VOCAB)}
+        self.idx2char_dict = {i: ch for i, ch in enumerate(VOCAB)}
 
         for idx in self.entry_indices:
             if str(idx) in EXCLUDED_ENTRIES:

@@ -26,6 +26,9 @@ def collate_fn(batch, pad_index):
 def main(input_dir, train_flag=False):
 
     json_path = os.path.join(input_dir, 'lookup_tables', 'songs_dict.json')
+    OUTPUT_DIR = os.path.abspath(os.path.join(os.getcwd(), os.pardir, 'output'))
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
     # print(json_path)
 
     dataset = ABCDataset(json_path)
@@ -49,8 +52,16 @@ def main(input_dir, train_flag=False):
 
     # change to True to train model with hyperparameters from HP class
     if train_flag:
-        model = train_model(train_loader, num_epochs=HP.num_epochs, batch_size=HP.batch_size, learning_rate=HP.lr)
-    eval_model(test_loader)         # latest model
+        model = train_model(train_loader,
+                            OUTPUT_DIR,
+                            num_epochs=HP.num_epochs,
+                            batch_size=HP.batch_size,
+                            learning_rate=HP.lr)
+
+    if os.path.isfile(f"{OUTPUT_DIR}/rnn_model.pth"):
+        eval_model(test_loader, OUTPUT_DIR)
+    else:
+        print(f"'{OUTPUT_DIR}/rnn_model.pth' DOES NOT EXIST\n   Set `train_flag=True` in main.py.")
 
     return model
 
@@ -59,5 +70,5 @@ if __name__ == "__main__":
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     data_path = os.path.join(base_dir, 'data')
 
-    main(data_path, train_flag=False)
+    main(data_path, train_flag=True)
 
