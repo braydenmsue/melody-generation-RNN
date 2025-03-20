@@ -23,13 +23,14 @@ def collate_fn(batch, pad_index):
     return inputs_padded, targets_padded
 
 
-def main(input_dir):
+def main(input_dir, train_flag=False):
 
     json_path = os.path.join(input_dir, 'lookup_tables', 'songs_dict.json')
     # print(json_path)
 
     dataset = ABCDataset(json_path)
     model = None
+
     test_ratio = 0.2  # 80/20 train/test split
     train_dataset, test_dataset = dataset.split_dataset(test_ratio)
     # print(dataset.__len__())
@@ -45,8 +46,9 @@ def main(input_dir):
                                               shuffle=True,
                                               collate_fn=lambda b: collate_fn(b, PAD_IDX))
 
-    # model = train_model(train_loader, num_epochs=HP.num_epochs, batch_size=HP.batch_size, learning_rate=HP.lr)
-    eval_model(test_loader)   # doesn't work
+    if train_flag:
+        model = train_model(train_loader, num_epochs=HP.num_epochs, batch_size=HP.batch_size, learning_rate=HP.lr)
+    eval_model(test_loader)
 
     return model
 

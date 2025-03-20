@@ -5,11 +5,11 @@ import torch.nn as nn
 class HP:
     hidden_dim = 128
     embed_dim = 32
-    n_layers = 3
+    n_layers = 1
     dropout = 0.2
 
     batch_size = 32
-    num_epochs = 5      # low for testing
+    num_epochs = 150
     lr = 0.002
 
     # System
@@ -20,6 +20,7 @@ class RNNModel(nn.Module):
 
     def __init__(self, input_size, hidden_size, output_size):
         super(RNNModel, self).__init__()
+        # TODO: figure out LSTM
         self.rnn = nn.RNN(input_size, hidden_size, batch_first=True)
         # self.rnn = nn.LSTM(input_size, hidden_size, batch_first=True)
         # self.rnn = nn.GRU(input_size, hidden_size, batch_first=True)

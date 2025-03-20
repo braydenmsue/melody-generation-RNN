@@ -15,13 +15,11 @@ def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
     # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     device = HP.device
 
-    # Load dataset
     # input_dir = dataloader.dataset.file_name
     # json_path = f"{input_dir}/lookup_tables/songs_dict.json"
     # dataset = ABCDataset(json_path)
     # dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True,collate_fn=collate_fn)
 
-    # Initialize model
     # input_size = dataloader.dataset.sequences[0].shape[2]  # VOCAB_SIZE
     dataset = dataloader.dataset
     if isinstance(dataset, Subset):
@@ -31,15 +29,13 @@ def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
     PAD_IDX = dataset.get_pad_idx()
 
     hidden_size = HP.hidden_dim
-    output_size = input_size  # Predicts the next character in sequence
+    output_size = input_size
     model = RNNModel(input_size, hidden_size, output_size).to(device)
 
-    # Define loss function and optimizer
     # criterion = nn.CrossEntropyLoss()
     criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-    # Training loop
     for epoch in range(num_epochs):
         total_loss = 0
         for input_tensor, target_tensor in dataloader:
@@ -65,7 +61,6 @@ def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
         avg_loss = total_loss / len(dataloader)
         print(f"Epoch {epoch + 1}/{num_epochs}, Loss: {avg_loss:.4f}")
 
-    # Save model
     torch.save(model.state_dict(), f"{OUTPUT_DIR}/rnn_model.pth")
     print("Training complete. Model saved.")
 
@@ -90,23 +85,29 @@ def eval_model(test_loader):
 
     test_loss = 0
     correct = 0
+    total = 0
     criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
 
     with torch.no_grad():
         for input_tensor, target_tensor in test_loader:
             input_tensor = input_tensor.to(device)
-            target_tensor = target_tensor.to(device).long()
+            target_tensor = target_tensor.to(device)
 
             output, _ = model(input_tensor)
-            print(output.shape)
+            output = output.reshape(-1, output_size)
+
             target_indices = torch.argmax(target_tensor, dim=2).reshape(-1)
+
             loss = criterion(output, target_indices)
             test_loss += loss.item()
 
-            pred = output.argmax(dim=1, keepdim=True)
-            correct += pred.eq(target_tensor.view_as(pred)).sum().item()
+            pred = output.argmax(dim=1)
+
+            mask = (target_indices != PAD_IDX)
+            correct += (pred[mask] == target_indices[mask]).sum().item()
+            total += mask.sum().item()
 
     test_loss /= len(test_loader)
-    accuracy = 100.0 * correct / len(test_loader.dataset)
+    accuracy = 100.0 * correct / total
 
-    print(f"\nTest set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(test_loader.dataset)} ({accuracy:.2f}%)\n")
+    print(f"\nTest set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{total} ({accuracy:.2f}%)\n")

@@ -29,7 +29,6 @@ def char2ind(c):
 
 
 # TODO: embeddings instead of one-hot encoding
-# TODO: add padding
 # TODO: bar-level chunking
 def line2tensor(line):
     # print(f"line: {line}")
