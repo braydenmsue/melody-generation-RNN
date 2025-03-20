@@ -5,10 +5,13 @@ from models.dataset import ABCDataset
 from torch.utils.data import Subset
 from models.rnn import RNNModel, HP
 import os
+import wandb
+
 
 OUTPUT_DIR = os.path.abspath(os.path.join(os.getcwd(), os.pardir, 'output'))
 # print(OUTPUT_DIR)
 
+def train_model(dataloader, num_epochs=35, batch_size=4, learning_rate=0.0005):
 
 def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
 
@@ -32,6 +35,15 @@ def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
     output_size = input_size
     model = RNNModel(input_size, hidden_size, output_size).to(device)
 
+    # Define loss function and optimizer
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.AdamW(model.parameters(), lr=learning_rate)
+
+    # run = wandb.init(
+    # # entity="mga113-org",
+    # # project="melody_generation"
+    # # name="CMPT 413 - Melody Generation",
+    # )   
     # criterion = nn.CrossEntropyLoss()
     criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
@@ -60,7 +72,14 @@ def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
 
         avg_loss = total_loss / len(dataloader)
         print(f"Epoch {epoch + 1}/{num_epochs}, Loss: {avg_loss:.4f}")
+    #     wandb.log({
+    #                 "train_loss": avg_loss
+    #             })
+    # run.finish()
 
+    # Save model
+    # torch.save(model.state_dict(), f"{OUTPUT_DIR}/rnn_model.pth")
+    # print("Training complete. Model saved.")
     torch.save(model.state_dict(), f"{OUTPUT_DIR}/rnn_model.pth")
     print("Training complete. Model saved.")
 
