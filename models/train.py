@@ -11,7 +11,6 @@ import wandb
 OUTPUT_DIR = os.path.abspath(os.path.join(os.getcwd(), os.pardir, 'output'))
 # print(OUTPUT_DIR)
 
-def train_model(dataloader, num_epochs=35, batch_size=4, learning_rate=0.0005):
 
 def train_model(dataloader, num_epochs=3, batch_size=32, learning_rate=0.0005):
 
