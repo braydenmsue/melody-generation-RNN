@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 
+
 # C extensions
 *.so
 
@@ -139,6 +140,7 @@ venv.bak/
 
 .DS_Store
 .idea
+.vscode
 
 # Spyder project settings
 .spyderproject
