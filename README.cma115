@@ -1,0 +1,6 @@
+Designed and implemented the data preprocessing pipeline, including cleaning, standardizing, and structuring the ABC notation dataset.
+Wrote the preprocess.py script to handle formatting, metadata parsing, and melody deduplication, saving results in standardized files.
+Assisted in setting up the training pipeline and integrating preprocessed data with the RNN model.
+Contributed to model evaluation by helping design metrics for assessing melody quality and adherence to musical rules.
+Collaborated on the milestone report, writing sections such as Data Preprocessing and Future Work.
+Provided insights and suggestions for improving the project workflow, including data handling and team collaboration.
