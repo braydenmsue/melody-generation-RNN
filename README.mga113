@@ -1,0 +1,6 @@
+Milestone:
+
+Wrote the training script and integrated/modified the dataset processing and RNN model to work with training. 
+Experimented with the hyperparameters to find optimal parameters for loss and accuracy. 
+Implemented weights and biases to track training metrics and logged/added graph visualizations to report. 
+Contributed to training methods, experiment implementation details, and future work in milestone report.
