@@ -1,3 +1,4 @@
 Wrote main driver script, created the PyTorch dataset, and set up the RNN model.
 Modified the training function to work with the dataset structure and wrote the model evaluation function.
 Created a function to generate model output samples for train and test data then write the results to a txt file.
+Contributed to evaluation methods, preliminary results, challenges, and future work in milestone report.
