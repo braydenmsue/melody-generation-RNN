@@ -3,9 +3,8 @@ from models.rnn import HP
 import torch
 import sys
 import os
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from models.dataset import ABCDataset, char2ind
+from models.dataset import ABCDataset
 from models.train import train_model, eval_model, sample
 from torch.nn.utils.rnn import pad_sequence
 
@@ -51,23 +50,39 @@ def main(input_dir, train_flag=False):
                                               collate_fn=lambda b: collate_fn(b, PAD_IDX))
 
     # change to True to train model with hyperparameters from HP class
+    NUM_SAMPLES = 10
     if train_flag:
         model = train_model(train_loader,
                             OUTPUT_DIR,
                             num_epochs=HP.num_epochs,
                             batch_size=HP.batch_size,
                             learning_rate=HP.lr)
-
-        gen_output = sample(model, train_dataset)
-        print(f"\nOUTPUT SEQUENCE (TRAIN):\n{gen_output}")
+        filename = f"{OUTPUT_DIR}/train.txt"
+        samples = ""
+        for i in range(NUM_SAMPLES):
+            samples += f"SAMPLE {i+1}:\n{sample(model, train_dataset)}\n\n"
+        if filename:
+            with open(filename, 'w') as f:
+                f.write(samples)
+            print(f"{NUM_SAMPLES} test samples written to {filename}.")
 
     if os.path.isfile(f"{OUTPUT_DIR}/rnn_model.pth"):
         model = eval_model(test_loader, OUTPUT_DIR)
-        gen_output = sample(model, test_dataset)
-        print(f"\nOUTPUT SEQUENCE (TEST):\n{gen_output}")
+        filename = f"{OUTPUT_DIR}/test.txt"
+        samples = ""
+        for i in range(NUM_SAMPLES):
+            samples += f"SAMPLE {i+1}:\n{sample(model, test_dataset)}\n\n"
+        if filename:
+            with open(filename, 'w') as f:
+                f.write(samples)
+            print(f"{NUM_SAMPLES} test samples written to {filename}.")
     else:
         print(f"'{OUTPUT_DIR}/rnn_model.pth' DOES NOT EXIST\n   Set `train_flag=True` in main.py.")
 
+    # gen_output = sample(model, train_dataset)
+    # print(f"\nOUTPUT SEQUENCE (TRAIN):\n{gen_output}")
+    # gen_output = sample(model, test_dataset)
+    # print(f"\nOUTPUT SEQUENCE (TEST):\n{gen_output}")
     return model
 
 

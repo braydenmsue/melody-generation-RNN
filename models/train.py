@@ -11,10 +11,6 @@ import numpy as np
 import wandb
 
 
-# OUTPUT_DIR = os.path.abspath(os.path.join(os.getcwd(), os.pardir, 'output'))
-# print(OUTPUT_DIR)
-
-
 def sample(model, dataset):
 
     model.eval()
@@ -26,69 +22,57 @@ def sample(model, dataset):
     if isinstance(dataset, Subset):
         dataset = dataset.dataset
     data = dataset.sequences
-    # input_seq = data[rand_idx:rand_idx+1]
-    input_seq = data[rand_idx:rand_idx + 1]
-    input_seq = input_seq[0].permute(1, 0, 2)
-    # print(f'input: {input_seq.shape}')
-    # input_seq = torch.argmax(input_seq, dim=1)
-    # print(f'input: {input_seq.shape}')
 
-    output_len = 100
-    generated_chars = []
+    # select a random sequence
+    input_seq = data[rand_idx:rand_idx + 1]     # (sequence_length, batch_size, input_size)
+    input_seq = input_seq[0].permute(1, 0, 2)   # (batch_size, sequence_length, input_size)
+
+    generated = []
     while True:
 
         output, hidden_state = model(input_seq, hidden_state)
         # print(f"probs shape before squeeze: {output.shape}")
 
-        last_output = output[:, -1, :]
-        output = F.softmax(last_output, dim=-1)
+        output = output[:, -1, :]  # (batch_size, input_size)
+        output = F.softmax(output, dim=-1)
 
         dist = Categorical(output)
         index = dist.sample()
 
         # print(dataset.idx2char_dict[index.item()], end='')
-        generated_chars.append(dataset.idx2char_dict[index.item()])
+        generated.append(dataset.idx2char_dict[index.item()])
         input_seq[0][0] = index.item()
         data_ptr += 1
-        if data_ptr > output_len:
+        if data_ptr > HP.output_len:
             break
 
-    result = ''.join(generated_chars)
+    result = ''.join(generated)
+
     return result
 
 
 def train_model(dataloader, output_dir, num_epochs=3, batch_size=32, learning_rate=0.0005):
 
-    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     device = HP.device
-
-    # input_dir = dataloader.dataset.file_name
-    # json_path = f"{input_dir}/lookup_tables/songs_dict.json"
-    # dataset = ABCDataset(json_path)
-    # dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True,collate_fn=collate_fn)
-
-    # input_size = dataloader.dataset.sequences[0].shape[2]  # VOCAB_SIZE
     dataset = dataloader.dataset
     if isinstance(dataset, Subset):
         dataset = dataset.dataset
 
     input_size = dataset.get_vocab_size()
-    PAD_IDX = dataset.get_pad_idx()
 
     hidden_size = HP.hidden_dim
     output_size = input_size
     model = RNNModel(input_size, hidden_size, output_size).to(device)
 
-    # Define loss function and optimizer
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.AdamW(model.parameters(), lr=learning_rate)
-
+    # criterion = nn.CrossEntropyLoss()
+    # optimizer = optim.AdamW(model.parameters(), lr=learning_rate)
     # run = wandb.init(
     # # entity="mga113-org",
     # # project="melody_generation"
     # # name="CMPT 413 - Melody Generation",
-    # )   
-    # criterion = nn.CrossEntropyLoss()
+    # )
+
+    PAD_IDX = dataset.get_pad_idx()
     criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
@@ -100,7 +84,6 @@ def train_model(dataloader, output_dir, num_epochs=3, batch_size=32, learning_ra
             model.zero_grad()
 
             batch_size, seq_length, _ = input_tensor.shape
-            hidden = torch.zeros(1, batch_size, hidden_size).to(device)
 
             output, hidden = model(input_tensor)
 
@@ -124,6 +107,7 @@ def train_model(dataloader, output_dir, num_epochs=3, batch_size=32, learning_ra
     torch.save(model.state_dict(), f"{output_dir}/rnn_model.pth")
     # torch.save(model.state_dict(), f"{OUTPUT_DIR}/rnn_model_{HP.num_epochs}.pth")
     print("Training complete. Model saved.")
+
     return model
 
 
@@ -131,8 +115,8 @@ def eval_model(test_loader, output_dir):
     dataset = test_loader.dataset
     if isinstance(dataset, Subset):
         dataset = dataset.dataset
+
     input_size = dataset.get_vocab_size()
-    PAD_IDX = dataset.get_pad_idx()
 
     hidden_size = HP.hidden_dim
     output_size = input_size
@@ -143,10 +127,12 @@ def eval_model(test_loader, output_dir):
     model.to(device)
     model.eval()
 
+    PAD_IDX = dataset.get_pad_idx()
+    criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
+
     test_loss = 0
     correct = 0
     total = 0
-    criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
 
     with torch.no_grad():
         for input_tensor, target_tensor in test_loader:

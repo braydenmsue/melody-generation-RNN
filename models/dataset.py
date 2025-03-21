@@ -2,6 +2,13 @@ import json
 import torch
 from torch.utils.data import Dataset, random_split
 
+# VOCAB_DICT = {
+#     'NOTES': "ABCDEFGabcdefg",
+#     'MODIFIERS': "Zz|[]/:!^_~=,.0123456789(){}<>#'\"%-+ ",
+#     'LABELS': "TLKM",    # Time signature, note length, key, melody
+#     'UNKNOWN': "_",
+#     'PAD': "$"}
+
 NOTES = "ABCDEFGabcdefg"
 MODIFIERS = "Zz|[]/:!^_~=,.0123456789(){}<>#'\"%-+ "
 LABELS = "TLKM"     # Time signature, note length, key, melody
@@ -26,14 +33,9 @@ def char2ind(c):
         return VOCAB.find(c)
 
 
-def ind2char(i):
-    return VOCAB[i]
-
-
 # TODO: embeddings instead of one-hot encoding
-# TODO: bar-level chunking
+# TODO: bar-level tokenization for melody; phrase-level for fractions and stuff
 def line2tensor(line):
-    # print(f"line: {line}")
     tensor = torch.zeros(len(line), 1, VOCAB_SIZE)
     for idx, letter in enumerate(line):
         tensor[idx][0][char2ind(letter)] = 1
@@ -57,7 +59,7 @@ def entry_to_tensor(entry):
 
 
 class ABCDataset(Dataset):
-    def __init__(self, json_file, transform=None, target_transform=None):
+    def __init__(self, json_file):
         with open(json_file, 'r') as f:
             self.data = json.load(f)
 
@@ -69,7 +71,6 @@ class ABCDataset(Dataset):
         self.pad_token = '$'
         self.pad_idx = self.vocab.find(self.pad_token)
 
-        self.char2idx_dict = {ch: i for i, ch in enumerate(VOCAB)}
         self.idx2char_dict = {i: ch for i, ch in enumerate(VOCAB)}
 
         for idx in self.entry_indices:
