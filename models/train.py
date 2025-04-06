@@ -29,8 +29,9 @@ def sample(model, dataset):
 
     generated = []
     while True:
+        
 
-        output, hidden_state = model(input_seq, hidden_state)
+        output, hidden_state = model(input_seq.cuda(), hidden_state)
         # print(f"probs shape before squeeze: {output.shape}")
 
         output = output[:, -1, :]  # (batch_size, input_size)

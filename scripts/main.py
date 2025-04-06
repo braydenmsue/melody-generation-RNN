@@ -1,9 +1,10 @@
 import os
-from models.rnn import HP
 import torch
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from models.rnn import HP
+
 from models.dataset import ABCDataset
 from models.train import train_model, eval_model, sample
 from torch.nn.utils.rnn import pad_sequence
