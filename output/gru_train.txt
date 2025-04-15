@@ -1,0 +1,30 @@
+SAMPLE 1:
+T:9/8 L:1/8 K:A g e e a g e c | f e d f a g f d B | A c B A2 B A2 || |: f | a g f e a2 f a g e | a e f e2 g a2 c | B d f 3gbg 3faf e c e | d c B A2 d c e f | g3 a2 c' b a | a g a g2 g a b2 | b a f a a b a g a. b | a f g a g e e2 || | c2 c A c e e2 f e | e c f A e d B c | d B A G B d g d B | a g a c' e f d | c B A F E G A | G A B c d e f | g f a e g a g2 :| A e f g a | b2 b g2 e d c B | d6 B c :| C. a b f b c' b a | g f e f d
+
+SAMPLE 2:
+T:C| L:1/8 K:G f 3edc d D a F | G B E G G2 G G | G2 3ABA G2 G2 | D2 3GAG | G A G F G2 G2 | 3Bcd B G A F B, g | b a g e c 3efg | a g a f g b 3gfe | D. C. 3cbG f2 || z2 g | | f2 g e f e d c | B g e d 3BcB 3dcB | A G A B c A F A | 3Bcd 3BAG - D2 B c | d e f d B A E A | B g f f e c e A | TB A G F E c B A | G2 G G G2 :| |: f d | a f e d c A B c | d g b g g a b a | g f e A B c d g | b b a f e6 :| | d e 3ggg Tf d d | 3efe e e 3fed 3efg | a g 3fgf g 3fed 3Bcd | e a a g a2 g2 | 3fgf e c 3ded A F | G
+
+SAMPLE 3:
+T:6/8 L:1/8 K:Em | g e d B A F | C3 F A d e | f f d e f d | B A B A2 F | G2 B A2 D | G B E E D D | G2 D D2 :| | G B d e f g | f e f d2 g | f a f d g f | e d c d e f | a g e d2 e | | f d f d e f | a g f a f d | e f e a g d B | A2 B e2 B | | g2 a b g f | e a g e2 d | e f g a2 a | b b g a f d | e f g g2 g | a g e g e a | d b g d B G | E E D D2 :| || c | B G B g - b | a g f e c A | B E TE G2 :| A B c d | e f d e2 d | c A G E C B, | D E D F G A | B G D G B F | 3FEF E F2 A | |
+
+SAMPLE 4:
+T:C| L:1/8 K:D 3cBA TB - A2 || e a a e f a f g | a g a g e f e f | e d c d e a f a | a g a f a f g f | A c e f A2 a g | f d a a f a e f | e f c e d c e | f e f a g e c e | d e f a a2 b d' | a g a g f e | e f g a b2 f g | a2 3efg d' a g | Tc A A c B A | B G G E TE E2 :| d c B A c d | e c e c g e c A | d c d A A F A F e | d2 B B a f g e | 3fag d e d c A F | G2 G A B G G E | D. C. C C2 C2 :| D d | c e c e c d e c | d2 c E G A G A | d B e e d c B A | G F E G D c B c | A c A c A2 d g | e G e A
+
+SAMPLE 5:
+T:9/8 L:1/8 K:D A2 c2 d2 B | B2 B B c d2 e f g | b2 a2 b g a2 f | a f f e2 f d2 B | d3 g2 g f2 e | f2 e f2 d e c A | d F F G2 F D E2 | E2 D E2 F D2 D2 | D2 A2 G2 B A :| c B | d g a | b2 b a2 a g f e | f2 d a2 g f2 f | e2 f e2 d A2 :| | A B A b2 f2 g2 | a b a a f g e c B | A2 c d2 d c B A | B2 G2 G2 A2 | B B c B G F A | E D2 F D D2 :| | 3FAc f g f .g d' b | a3 f g f e | e2 d e f c e d c | A2 A A F D
+
+SAMPLE 6:
+T:6/8 L:1/8 K:G | G F G F f A | D F G A F G | A F D D e. G | E G A F F G | f f g a g f | B d e g a. g | f e d g2 a | b g f a2 g | f f e ~g f | g f d e d c | B G A G2 :| || d | g2 e Ta g a | b a a g f e | d c B d2 B | c A B G2 F | G2 F G2 A | G B G G2 g | f e e a g f | g f g e d c | B G G G2 :| | G A B A G F | G F D E G F | ~G F G A F A | B A G G F G | A D F G2 F | G F E A2 c | TB G F G2 F | G A B A A B | d c d F G A | B G B A F A | D D F G2 :| | a B G A G F | G E D
+
+SAMPLE 7:
+T:2/4 L:1/16 K:G | A2 a B d e f g | d e d e f g f | g f g e d c d B | A d e f g2 f a | g f g a G2 a g | c e A e c A A B | c d e f g f g a | b a g f 3efe e d | c A c A D6 :| A G | F2 F G A d A F | A2 d c d4 c |: | d c d e f2 e A | A g f e d c A F | ~G A G F G2 A G | F2 D2 D2 G d | c B A A2 d f2 e d || | e a b g f e f g f | e c e A d A c d | e f g f a g f e | f3 f d2 c e | d B d B A B A G | c2 c e A c A B | G2 E F G A B c | d B c A G E A2 || D E C2 A | A G A B c A B c | f e d c c B c
+
+SAMPLE 8:
+T:6/8 L:1/8 K:D g2 | d - B A2 B | A B c d2 g | f e d g e f | g e c d2 || c | A B c d d B | A F D TF A | E D2 | ~F A c e d B | A2 F E2 d | A f e Tf e f | A2 d c A G | F A B D2 F | c2 F A A G | F2 D G A B | e c A d e f | d g g b a g | f e d d2 :| | A F A A d d | e c A A F A | f d d d2 c | B d B A2 c | a g e d c B | A F D D2 :| :| 3EFG | A B c d2 e | f e d e 3fga | g f e A g a | b g b a e f | g e g b a g | f e d A2 :| A2 | g f B c A F | A G F A B d | c A F G F E | F E F d2 F | F A
+
+SAMPLE 9:
+T:2/4 L:1/16 K:G | A2 G F E e d | c a e c c A G E | G3 A G2 B G | d c B c d c d f | e c A B c E F A | G2 G A F2 E d | g a g f g f e a | b g a f g2 d2 | c A F d A2 |: :| | B G 3BGB c3 | B c G F G2 E C | A, B, C E 3DEG 3CeC d | e f g f e c d c d | e a e d D E A c | B G A F G2 :| G | G E D G G2 G A | A F D G A e f g | e d E F c2 A G | F G A B G2 a g | b a g e f d d2 || e2 f g a g g e | c e d c B A e d | e f g a b f e d | A G B f g g e E | F G A B c B2 - A | B G A F G G E2 | G G G
+
+SAMPLE 10:
+T:C L:1/8 K:G | G3 A2 B c | B c d B d e f g a3 | g a f g e c .d e | .f G - A G2 B3 G | .G A G2 G2 | .A A6 | G A B c d c B B | f e d3 d f e | d c d e d2 z2 | A B c d f | e3 d e d d B | c2 c d e g f e | d B e. g a3 c' | e' b2 g e f .g .g g | .B e f g3 a | g2 g4 B g a g | b c' g d d2 B d | B2 c B G2 A B | c2 c A 3GAB | c d2 g2 | f2 | ~d A B c d B | A c2 A A | c2 d3 d3 | c3 | G2 d2 c B A G | A3 A2 G2 || d .c
+

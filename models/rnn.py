@@ -1,40 +1,21 @@
 import torch
 import torch.nn as nn
-
-
-class HP:
-    hidden_dim = 128
-    embed_dim = 32
-    n_layers = 1
-    dropout = 0.2
-
-    batch_size = 32
-    num_epochs = 30
-    lr = 0.002
-    output_len = 256
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+from models.hyperparameters import HP
 
 
 class RNNModel(nn.Module):
-
-    def __init__(self, input_size, hidden_size, output_size):
+    def __init__(self, vocab_size, embed_dim, hidden_dim, num_layers, pad_idx, dropout):
         super(RNNModel, self).__init__()
-        # TODO: figure out LSTM
-        self.rnn = nn.RNN(input_size, hidden_size, batch_first=True)
-        # self.rnn = nn.LSTM(input_size, hidden_size, batch_first=True)
-        # self.rnn = nn.GRU(input_size, hidden_size, batch_first=True)
-        self.fc = nn.Linear(hidden_size, output_size)
+        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=pad_idx)
+        self.rnn = nn.RNN(embed_dim, hidden_dim, num_layers, batch_first=True, dropout=dropout)
+        self.fc = nn.Linear(hidden_dim, vocab_size)
 
     def forward(self, x, hidden=None):
-        if hidden is None:
-            hidden = torch.zeros(1, x.size(0), HP.hidden_dim).to(x.device)
-        
-        out, hidden = self.rnn(x, hidden)
-        out = self.fc(out)
-        return out, hidden
-
-
-
+        x = self.embedding(x)
+        # print("Input shape:", x.shape)
+        # print("Input dtype:", x.dtype)
+        output, hidden = self.rnn(x, hidden)
+        logits = self.fc(output)  # [batch_size, seq_len, vocab_size]
+        return logits, hidden
 
 

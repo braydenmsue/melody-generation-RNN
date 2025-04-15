@@ -1,30 +1,30 @@
 SAMPLE 1:
-T.dGBAT|3T3 cAG|TKe.AddecFKBdABAE.3|TcFed dGB3BdBTGT3GBTDGBGBgd|FcTdgBeT.ddc||d|dA|BTB dBBE|eg|B.cd AGGAA3FdA_d|DdeT2fTABG3FTKffB|g|fc|DBaAKBBBEzBT|dEAfbezc|TB.6TABF||KBG3B_G|e~ TTE|z|B3A|Tg3ecATG AAdAB3cKG"TKBT |AfGdTDBB3FT|3_gGTFB_3_g| DT.TcDcGcF3gBccEBTA
+T:6/8 L:1/8 K:Am | ~d B A2 B | c A G A2 || G || A B c d2 e | a g e e d c | c B A G F E | 3EGB g f e d | e c A c B A | G E G G2 A | E 3EFG G A | B E E E2 B | c c B A2 e d | c A F A2 c | G D E F B A | B d g2 g b. e | 3fed e f g a f g e | f d B d B G G | A2 G G2 :| | G A2 B | A2 c A B c | d e d c B c | | d2 B d2 A | F A A c d e | f g f e g f | e2 c e2 a | b a f e e d | A2 G F2 A | B2 G A2 A | E D2 E D
 
 SAMPLE 2:
-EA|FEDFBTc3||TADGDB|fB|dGGGG||dcTG3A||BD33F3DTTebA|GBCzFd.dfcBAc eBT3GdGAAGBGGBAAGKKf|FA"3FD|FeEaAF. TC.GDTBT3|3z.GD|2GD|DTDTdAGAGcG_AD3TG3|DATT3DgGGTf~G|6A|BGTcGDf|GdD33DdD3 E||GBzTcD|FEzAz|LTAgAcAAbABFA4|DGTF|2Ad~ADGABGAG||eFABTTGT||Ag2|Ac63D| (TGcDAeCB3|
+T:C| L:1/8 K:D g f g e a | f B d e A2 || f e | d f f e 3ded g a b a | b3 g f e d c B | c6 E2 || Se b a g f d2 || b a 3DED | 3BcB .d g a g b a | b a f a b g a f | g a b g a2 g2 | 3bag a g a b a g | a g f f e d e c | d B A G F TE | D2 G A 3BAG || | C F A d2 f g | b g a f e2 a g | f d A F A F D F | A G F F E F A d | g2 g f e d2 | d2 f e d c f | | e f e d A F A F | D F A F G A B e | f e d c B A F A | d g f e e f g | |: d g a3 g f b | 3fga b f e d c B A | G2 B A G A B d 3efd 3cBA | G E F E
 
 SAMPLE 3:
-|B|f|T_| .||| A  DGd3|3B_||fTd|T3G| |33|"D||B||e3gA".L.AD|ddD|zcc3L|A ||3||Gz_T|gG3D 3A||T3BDD|||G43|_3||_LcDKDAgG  3 | A3|3|fzT|AdAf| DE|GG|DT3T T|TdT.Dgz|Ge|3AG|FBTG._b(3||4|T|T gDE3|g_|A|fag||B|d||T||  |. TzT2d3fe_ .e|LGTd|cB3BK|c|3||DE|Dd.TDTb.3"3BDeD" 
+T:3/4 L:1/8 K:A E F | A2 A B c2 | A2 A2 A2 | c3 d e f e d | f d c A G E || A B2 c A :| e f d B A2 | e f d e | e2 d3 B | TG D2 E D | B2 A G A G | F D ~F D d | F2 G2 d2 | e2 f g | a3 || | F D F A2 B | A4 D2 | D4 || | A4 3ABc | d3 e f | g g | a g f2 e2 | d3 e2 | d3 c2 B | c4 d3 | 3Acd .B .D .E .A | .A .B .f || | .B .A .G .F .F .E | .G .D C .G C2 | .C D C B, | C4 A | B A E2 .G D C | A4 || | | A2 A2 B2 | A4 A G | A2 a2 f e | e2 B d e d | B d e2 3DEC | E4 d A | G E2
 
 SAMPLE 4:
-AFG|BDBdG3B|G GBFKTe3BFEG3B3GAGATdB3fDd3GAGG|GGcD|GGGGFBFg|GGTFGfc33zBGGGGgDAAFdAbFD3BT3||G3DGTCGF|dCdTLBGgGL33BDAFLL3GFKG3|TGKG|dDGAAF3T3GcLG|DABGAdBFBcATCA|DLTd6BAFdGBAd|dBABTAfLdTfBAAGgGAAGLGBGEDeTDgBTTGTG|DG3FGL3 GDfBcGcDTBDB 3TETDFG|FBEDDg|GL|BddDGGB3d
+T:C| L:1/8 K:Am G G A G E G | G B d B c d e f e :| g a g g 3efg b a | g e c e f e d g | 3fga e e 3cdB e c | 3efg f b a g e f | g d c B e A c A | B G A G TF G E G | E B c Hc .A | d e f e 3fed 3cBA :| A3 G B c d G | | A B B A G2 B A | B A A B c A E A | c d e g a g a f | g e 3ccc e g g a | b g e B g d B G | A2 3cBA A2 :| | a g e f e g f g | e d e f g d B d | 3EGB 3Cge b b a g | d c B d g f e d | 3efg a a b g a e | c A A B c d e c | a g b e a g f e | ~g e2 a b | 3agf z2
 
 SAMPLE 5:
-."BDBdKTdTTBF_|B_da|KT_B._A3TA_zA| gD"TfeGfKTeAd(efCTd|3eBFAFFdzfcCB"DdeggTKFf|GeT_d_T"KfB!eATTTLETe"3DBg.FDcTcddE|A.MBKcA|_eedD.G Bf|EzTG_|gTKBT(GcDdG.TGD"_|BETKeGDBDafA.KGGTB zTD (3gafT[.eBB.TTTGeBzd|F~TeB__e _|"((gB3G.dD.dcDeBTDdg AdeADBCgFTgdgcgDK3cBT~f
+T:2/4 L:1/8 K:G | .G .G TA | B2 c. e | d3 c | B3 A B | ~c .d e | d2 d c E | F2 D E | F4 G - E | | .C E - G | D3 G, G F | | .G .d | .G E2 d e | d3 e | d2 3FGE | ~E D .C G, | G4 || | A F A G | F2 G F | A B c d | e c d3 D A | | G2 G G3 | | .B A G | A2 C D2 | E D D A E4 | ~d c .B d | d2 B - A G | D B A G B | A2 .G ~G G | F2 A G E | D B, B, | D G. A G | TE D | C2 || | - .G B A E | B, D C A | G F D D | || A | B3 A G | A2 B2 | A B - B c | B3 F G | A
 
 SAMPLE 6:
-|T|TTT|b||||Kz|||L||||||3|||LB|||_T|z|||B|L|d3M||CTB|F||D|L||c|db|3|TK||.|||BG|| .CLA|||G||DT|||||.|Gff||3dL|c|||d||L"|d||||||3F||||ec||g|TB||||L||GF|||G|||L|2|L|M||L||| |Bd||TB3|G|||||AE||#_||.||3L|||gK_|3BB.||B|_||BD3ed|e|Ad|T|f|E||||.||||CG|eK6|||(|G3||L
+T:C| L:1/8 K:Em f e d 3dcd 3AAA A D | B, D F G A F E D | 3BdB B G F A e a | g G F A F A d f | g e f g g f e d | c B A G 3ABA A G | D D E 3AAA F A | E A2 | D A B c A d c 3def | d g a g f e d a | .g C. g g f a 3gag | f g f e d B D. |: G B d :| g2 b b a g f g | | e f a g e2 3cBA | d 3cde f g d3 | e g e d B A B c | Tf e d c 3Bcd f e | a f a f 3fed d f | e c a d c B D. E |
 
 SAMPLE 7:
-DD AEG|FGE,EB DGGGFEDEGGAFAFTGGGcA|dDGFGGBGFG3AG3AALdGG FEGGDdGGG3FE|GGGGG3GGDDD.AFBGGdFdED|dGAAFDGG5DF|AEGAGDADG3GDFBfdGG GAFBFdGE|||GDGGGG|F| GEAFF3FGGFBdGFGAGGAGAzEEDd~LGDDFGLGDEGGA DFFDB|FDdGFAGG3dc3GT EBMAAFdD|D3 ATAAGE3ADGGGGDGBf33EADA FGE FABFBATGDGA
+T:9/8 L:1/8 K:G d e f d e a2 f | g e c d2 B A B c :| A d B A F A d | F E F A2 a f d B | d c B A A2 e A F D | E A d d2 e f g f | 3efg d B A F D E F A | B c a e f e f e d | e2 c d2 c B A c d | e c A TB c2 A F E | F A d c A ~F G2 :| | F D D F E F A c B | A F2 B A F E 3GFE | E C D F d B c e e | e B d e c d c d e | f d B c2 B A2 :| A d | d2 f B c G F2 E | E F A c A G F D F | B c d c A F E2 :| - d g f e | f2 d e A A B c A2 | e f
 
 SAMPLE 8:
-acfg| fgK3d bBedG fd Bedc|Fc~3cTBcg d"3| 3| GBcfdB 3AB3|d. | T|D|bFegcG|GfGB|Bdczd3dba3Da.GdGe3|e gGfB|dcLd||F|fdKfT_TfBc~B||ddK3|f3eaG|bBc|ff|ezE3 fffc"dfAdB||3aed|a3Kcg BefF|G3 ecdA| 3||d|K Tg|Bbbf|3cdAAg|ee|eTgddLeLgB LcB3Bf 3dAe|g|cf|EcGec3e_de|TcdATe3d
+T:6/8 L:1/8 K:Em G B B2 A | G A G G2 d | c c e z2 :| g3 e2 f | g2 f e2 c | | B c d e d c. B | d3 d B G | d B G 3BAG :| | d B G D. A2 | G3 B | c A F G2 :| |: A | B G B d2 A | B G G A2 e | f a b f e d | b g e d B G | 3bCe a b2 g | a f d e2 f | g2 e f c d | e c A A B c | d2 d2 b2 | a f d d2 :| | G2 G F E F | G2 G2 G2 || g3 | f e d e f g | .f g3 d2 | B G G G2 :| |: F | A B c d B G | A G F G2 D | D C G2 z2 :| d B f e | g2 d B3 | A F. F F F A |
 
 SAMPLE 9:
-E|G_cGz|G(e DTGeAGd|Gg|GFG|3zF| DGg|||3d|A2L"BG|T||zz|||zfAFA|c3BL|||K|G|z||cBTG|BDGE||AAAG||B||FBc||||3|E|||"|||TACG|33||GDT|zTGK3|B|TGB|TFB_B|GAFz|GG(cdA||fF|.D|G||FBB ||K||K|GEz3d|||T(T||DDGEBGFDF||EDBTgG_|z|dAFAG|K(DT|cDG|TD|KLG|A3|DcAdA||C|Ee|| c|TdAcG
+T:2/4 L:1/16 K:G d | G3 B G3 B G | A c B A G2 G2 | B A B G c B A G | F G A B c d e f | e2 A2 F G A2 B c | d e d c B A2 B c | d g c B A B B c A f | B G A B c B c d | e d c d c B d a g e d f | e2 d2 3efg f e c d | e f g b a g e | d2 - d2 A2 ( A TG | B, D 3ABc G G | | c2 c A F2 G2 | B A G F E F A2 | .d B | B c B A B G E E2 | B, C B, C D B, B, B, A, | C4 B, E C C D2 :| || B c B A A B c B | d2 e d B A F G | d A G3 ~G A B | A c B A A6 | d2 d a a3 g f | 3gab g f e c B c | d e f d d g2 3def | | g2
 
 SAMPLE 10:
-z| A|||  ||DgK3|ETBA|L.|g| |T|||3fG|[B|AD|E3KAA|||cD|E|D|BGT63GA|D||T|Kc|TK||B| .G ||||G||ET|A||c~FdA|A||G|DBG|  D||c||.|||3|LDz|GDA3 GT|| |dd"zGL|Tz||3|~B|g.|3 EK|||| GD|3D|T T3A33 |AT|||3||| e|cG||3G.B|c|  c||K||6F|G|f D|ef ||eAD|3z|G|||D|3 Gf|3A|d|~f3|Kg
+T:3/4 L:1/8 K:A | A G F E E2 | d2 e f g f | g2 ~f c A2 | G F B, D4 | F G A B c2 | d2 f2 g a | g4 a g | f2 f2 d2 | d2 B c d c | d2 c. A A2 | E4 || | D A2 | B2 A2 A2 | F4 G E | 3DEF c B B A | F3 D C2 | D E F2 C2 | D4 B2 | | F2 E2 D2 F | | TB F E c2 | B c d3 B | d4 c 3BAG | E3 F2 D | F2 D2 A F | E F F2 E2 | F2 D F A F | A3 c2 d c | B2 A2 G A | B3 - c A4 | G6 || A | B4 c2 | B2 A2 G2 | F2 C2 D4 | E2 e2 | A2 A2 d2 | e d c2 A2 | F4 F G | A2 g2 f e d | A3 F A
 
