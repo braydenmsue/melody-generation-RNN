@@ -44,5 +44,12 @@ python3 -m scripts.main
 
 ## Results
 The output directory contains trained models, training loss, training samples, and the test samples of the best model.\
-To see implementation details as well as the results, please refer to `Final_Report.pdf`.\
+The sampled melodies have high key-adherence but poor melodic structure, with the biggest improvement in performance
+resulting in the implementation of data augmentation.
+```
+Example Output (Truncated):
+T:6/8 L:1/8 K:Am | ~d B A2 B | c A G A2 || G || A B c d2 e | a g e e d c | c B A G F E | 3EGB g f e d | ...
+```
+Example Output
+To see implementation details as well as the performance metrics, please refer to `Final_Report.pdf`.\
 For a description of the inner workings of the code, please refer to `project.ipynb`.
